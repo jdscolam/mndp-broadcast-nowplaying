@@ -55,13 +55,15 @@ function generateMessage(nowPlaying, hashtag){
     let realLength = message.length + title.length + 1;
     message += ' [' + title + '](' + nowPlaying.videoEmbedLink + ')';
 
-    _.forEach(nowPlaying.tags, x => {
-        if(realLength >= 256 || realLength + x.length + 2 > 252)
-            return false;
+    if(_.isArray(nowPlaying.tags)){
+        _.forEach(nowPlaying.tags, x => {
+            if(realLength >= 256 || realLength + x.length + 2 > 252)
+                return false;
 
-        realLength += (x.length + 2);
-        message += ' #' + x;
-    });
+            realLength += (x.length + 2);
+            message += ' #' + x;
+        });
+    }
 
     message += ' ' + hashtag;
 
