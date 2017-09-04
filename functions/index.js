@@ -52,11 +52,11 @@ function generateMessage(nowPlaying, hashtag){
 
     let message = '#NowPlaying ';
     let title = _.truncate(nowPlaying.title, {length: 253 - message.length - hashtag.length - 1});
-    let realLength = message.length + title.length;
+    let realLength = message.length + title.length + 1;
     message += ' [' + title + '](' + nowPlaying.videoEmbedLink + ')';
 
     _.forEach(nowPlaying.tags, x => {
-        if(realLength === 256 || realLength + x.length + 2 > 252)
+        if(realLength >= 256 || realLength + x.length + 2 > 252)
             return false;
 
         realLength += (x.length + 2);
