@@ -20,9 +20,14 @@ exports.nowPlaying = functions.database.ref('shows/current/mondaynightdanceparty
 
         if(!videoIdSnapshot.changed()){
             console.log('Video has not changed, exiting...');
-            return;
+            return 0;
         }
-        return broadcastNowPlaying(nowPlayingSnapshot.val(), '#MondayNightDanceParty');
+
+        return broadcastNowPlaying(nowPlayingSnapshot.val(), '#MondayNightDanceParty').then(() => {
+            console.log('Success! Exiting...');
+
+            return 0;
+        });
     });
 
 function broadcastNowPlaying(nowPlaying, hashtag){
