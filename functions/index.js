@@ -49,11 +49,17 @@ function broadcastNowPlaying(nowPlaying, hashtag){
 
 function generateMessage(nowPlaying, hashtag){
     console.log('Generating message...');
-
+    let hashtag = ' requested by @' + nowPlaying.user + ' on ' + hashtag;
     let message = '#NowPlaying ';
     let title = _.truncate(nowPlaying.title, {length: 253 - message.length - hashtag.length - 1});
     let realLength = message.length + title.length + 1;
     message += ' [' + title + '](' + nowPlaying.videoEmbedLink + ')';
+
+    if(_.isString(nowPlaying.artist) && !_.isEmpty(_.trim(nowPlaying.artist))){
+        let artist = _.truncate(' by ' + nowPlaying.artist, { length: 253 - realLength });
+        realLength += artist.length;
+        message += artist;
+    }
 
     if(_.isArray(nowPlaying.tags)){
         _.forEach(nowPlaying.tags, x => {
@@ -65,7 +71,7 @@ function generateMessage(nowPlaying, hashtag){
         });
     }
 
-    message += ' ' + hashtag;
+    message += hashtag;
 
     return message;
 }
