@@ -44,7 +44,14 @@ function broadcastNowPlaying(nowPlaying, hashtag){
         headers: {'Authorization': 'Bearer ' + functions.config().mndp_botcast.botcast_key }
     };
 
-    return axios.post('/v0/posts', message, config);
+    return axios.post('/v0/posts', message, config).then(() =>
+    {
+        console.log('Posting message to channel...');
+        message.text = _.replace(message.text, ' on ' + hashtag, '');
+
+        //Post message to channel
+        return axios.post('/v0/channels/600/messages', message, config)
+    });
 }
 
 function generateMessage(nowPlaying, hashtag){
