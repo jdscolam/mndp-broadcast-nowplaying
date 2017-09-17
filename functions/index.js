@@ -49,7 +49,7 @@ function broadcastNowPlaying(nowPlaying, hashtag){
 
 function generateMessage(nowPlaying, hashtag){
     console.log('Generating message...');
-    let hashtag = ' requested by @' + nowPlaying.user + ' on ' + hashtag;
+    hashtag = ' requested by @' + nowPlaying.user + ' on ' + hashtag;
     let message = '#NowPlaying ';
     let title = _.truncate(nowPlaying.title, {length: 253 - message.length - hashtag.length - 1});
     let realLength = message.length + title.length + 1;
