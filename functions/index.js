@@ -14,16 +14,17 @@ admin.initializeApp({
 });
 
 exports.nowPlaying = functions.database.ref('shows/current/mondaynightdanceparty/nowplaying')
-    .onWrite(event => {
-        let nowPlayingSnapshot = event.data;
-        let videoIdSnapshot = nowPlayingSnapshot.child('videoId');
+    .onWrite((change, context) => {
+        let beforeId = change.before.val().videoId;
+        let after = change.after.val();
+        let afterId = change.after.val().videoId;
 
-        if(!videoIdSnapshot.changed()){
+        if(beforeId === afterId){
             console.log('Video has not changed, exiting...');
             return 0;
         }
 
-        return broadcastNowPlaying(nowPlayingSnapshot.val(), '#MondayNightDanceParty').then(() => {
+        return broadcastNowPlaying(after, '#MondayNightDanceParty').then(() => {
             console.log('Success! Exiting...');
 
             return 0;
